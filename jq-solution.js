@@ -1,9 +1,11 @@
+//Variables
 var game_flag = false
 var solution = []
 var user_input = []
 var buttons_colors = ["red", "green", "blue", "yellow"]
 var level = 1
 
+//Animating the randomly selected button
 function computerClicks(){
     user_input = [];
     var random_nb = Math.floor((Math.random() * 4));
@@ -19,16 +21,19 @@ function computerClicks(){
     }, 500);
 }
 
+//Plays sound of a specific button
 function playAudio (audio){
     var sound = new Audio ("sounds/" + audio + ".mp3");
     sound.play();
 }
 
+//if the user wins, give turn back to computer to continue
 function checkUserInput(turn){
     if(user_input[turn] == solution[turn]){
         if (user_input.length == solution.length){
             computerClicks();
         }
+    //if not, game over
     }else{
         $("body").addClass("game-over");
         setTimeout(() => {
@@ -44,7 +49,7 @@ $(document).keypress(function() {
         $("#title").text("Level 1");
         computerClicks();
     };
-
+    //Get ID of the clicked button to add it to user input array
     $(".btn").click(function(event) {
         clicked_btn = event.target.id;
         user_input.push(clicked_btn);
