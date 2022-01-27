@@ -5,7 +5,46 @@ var buttons_colors = ["red", "green", "blue", "yellow"]
 var level = 1
 var title = document.getElementById("title")
 var btns = document.getElementsByClassName("btn")
+var green_btn = document.getElementById("green")
+var red_btn = document.getElementById("red")
+var yellow_btn = document.getElementById("yellow")
+var blue_btn = document.getElementById("blue")
+var audio_green = new Audio("/sounds/green.mp3")
+var audio_red = new Audio("/sounds/red.mp3")
+var audio_yellow = new Audio("/sounds/yellow.mp3")
+var audio_blue = new Audio("/sounds/blue.mp3")
 
+function pressGreenBtn (){
+    audio_green.play()
+    green_btn.classList.add("pressed");
+    setTimeout(function(){
+        green_btn.classList.remove("pressed");
+    }, 100); 
+}
+
+function pressRedBtn (){
+    audio_red.play()
+    red_btn.classList.add("pressed");
+    setTimeout(function(){
+        red_btn.classList.remove("pressed");
+    }, 100); 
+}
+
+function pressYellowBtn (){
+    audio_yellow.play()
+    yellow_btn.classList.add("pressed");
+    setTimeout(function(){
+        yellow_btn.classList.remove("pressed");
+    }, 100); 
+}
+
+function pressBlueBtn (){
+    audio_blue.play()
+    blue_btn.classList.add("pressed");
+    setTimeout(function(){
+        blue_btn.classList.remove("pressed");
+    }, 100); 
+}
 
 function computerClicks(){
     user_input = [];
@@ -13,27 +52,25 @@ function computerClicks(){
     var selected_btn = buttons_colors[random_nb];
     solution.push(selected_btn);
 
-    selected_btn.classList.add("pressed");
-    setTimeout(function(){
-        selected_btn.classList.remove("pressed");
-    }, 100); 
-
+    if (selected_btn == "green"){
+        pressGreenBtn()    
+    }else if(selected_btn == "blue"){
+        pressBlueBtn()
+    }else if(selected_btn == "red"){
+        pressRedBtn() 
+    }else if(selected_btn == "yellow"){
+        pressYellowBtn()
+    }
     title.textContent = "Level " + level;
     level++;
-    setTimeout(() => {
-        playAudio(selected_btn);
-    }, 500);
-}
-
-function playAudio (audio){
-    var sound = new Audio ("sounds/" + audio + ".mp3");
-    sound.play();
 }
 
 function checkUserInput(turn){
     if(user_input[turn] == solution[turn]){
         if (user_input.length == solution.length){
-            computerClicks();
+            setTimeout(() => {
+                computerClicks();
+            }, 500);
         }
     }else{
         document.body.classList.add("game-over")
@@ -51,14 +88,24 @@ document.addEventListener("keypress", function(event) {
         computerClicks();
     };
 
-    btns.addEventListener("click", function(event){ 
-        clicked_btn = event.target.id;
-        user_input.push(clicked_btn);
-        playAudio(clicked_btn);
-        checkUserInput(user_input.length -1);
-    })
-
-});
+    for (var i = 0; i<btns.length; i++){
+        btns[i].addEventListener("click", function(event){ 
+            clicked_btn = event.target.id;
+            user_input.push(clicked_btn);
+            
+            if (clicked_btn == "green"){
+                pressGreenBtn()     
+            }else if(clicked_btn == "blue"){
+                pressBlueBtn()
+            }else if(clicked_btn == "red"){
+                pressRedBtn()
+            }else if(clicked_btn == "yellow"){
+               pressYellowBtn()
+            }
+            checkUserInput(user_input.length -1);
+        })
+    }
+})
 
 function gameOver(){
     level = 1;
