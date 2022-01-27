@@ -18,7 +18,7 @@ function computerClicks(){
     level++;
     setTimeout(() => {
         playAudio(selected_btn);
-    }, 500);
+    }, 400);
 }
 
 //Plays sound of a specific button
@@ -52,6 +52,11 @@ $(document).keypress(function() {
     //Get ID of the clicked button to add it to user input array
     $(".btn").click(function(event) {
         clicked_btn = event.target.id;
+        $("." + clicked_btn).addClass("pressed");
+        setTimeout(() => {
+            $("." + clicked_btn).removeClass("pressed");
+        }, 100);
+
         user_input.push(clicked_btn);
         playAudio(clicked_btn);
         checkUserInput(user_input.length -1);
@@ -64,6 +69,6 @@ function gameOver(){
     user_input = [];
     game_flag = false;
     $("#title").text("Game Over. Press Any Key To Restart");
-    var audio_wrong = new Audio("/sounds/wrong.mp3");
+    var audio_wrong = new Audio("sounds/wrong.mp3");
     audio_wrong.play();
 }
