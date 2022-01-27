@@ -6,17 +6,14 @@ var audio_yellow = new Audio("/sounds/yellow.mp3")
 var audio_blue = new Audio("/sounds/blue.mp3")
 var audio_wrong = new Audio("/sounds/wrong.mp3")
 
-
 var green_btn = document.getElementById("green")
 var red_btn = document.getElementById("red")
 var yellow_btn = document.getElementById("yellow")
 var blue_btn = document.getElementById("blue")
 var title = document.getElementById("title")
 var game_over_text = "Game Over, Press Any Key To Restart"
-var game_over = false
-var user_turn = false
 
-var level_nb = 1
+var turn = 1
 var solution = []
 var user_input = []
 
@@ -66,30 +63,6 @@ function randomBtn(){
     return random_btn.toString()
 }
 
-function getUserInput(){
-    
-    green_btn.addEventListener("click", function(){ 
-        pressGreenBtn()
-        user_input.push("1")
-    })
-    
-    red_btn.addEventListener("click", function(){
-        pressRedBtn()
-        user_input.push("2")
-    })
-    
-    yellow_btn.addEventListener("click", function(){
-        pressYellowBtn()
-        user_input.push("3")
-    })
-    
-    blue_btn.addEventListener("click", function(){
-        pressBlueBtn()
-        user_input.push("4")
-    })
-}
-
-
 function gameOver(){
     document.body.classList.add("game-over");
     audio_wrong.play()
@@ -100,9 +73,57 @@ function gameOver(){
     }, 300); 
 }
 
-document.addEventListener("keypress", function(event) {
-  
-    title.textContent = "Level " + level_nb
+function userTurn(){
+
+    setTimeout(function(){
+        
+        green_btn.addEventListener("click", function(){ 
+            pressGreenBtn()
+            user_input.push("1")
+            console.log("Green clicked")
+        })
+        
+        red_btn.addEventListener("click", function(){
+            pressRedBtn()
+            user_input.push("2")
+        })
+        
+        yellow_btn.addEventListener("click", function(){
+            pressYellowBtn()
+            user_input.push("3")
+        })
+        
+        blue_btn.addEventListener("click", function(){
+            pressBlueBtn()
+            user_input.push("4")
+        })
+        
+    },1000)
+}
+
+
+function computerTurn(){
+    title.textContent = "Level " + turn
     solution.push(randomBtn())
-    
+}
+
+function checkInput(){
+    for (var i=0; i<solution.length;i++)
+    {
+        if (user_input[i] === solution[i]){
+            return true
+
+        }else{
+            gameOver()
+        }
+    }
+}
+
+document.addEventListener("keypress", function(event) {
+
+    title.textContent = "Level " + turn
+    solution.push(randomBtn())
+    userTurn()
+    if(checkInput())
+
 }) // end of game
