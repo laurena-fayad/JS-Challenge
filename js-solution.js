@@ -1,3 +1,4 @@
+//Variables 
 var game_flag = false
 var solution = []
 var user_input = []
@@ -14,6 +15,7 @@ var audio_red = new Audio("/sounds/red.mp3")
 var audio_yellow = new Audio("/sounds/yellow.mp3")
 var audio_blue = new Audio("/sounds/blue.mp3")
 
+//Animation functions
 function pressGreenBtn (){
     audio_green.play()
     green_btn.classList.add("pressed");
@@ -47,11 +49,12 @@ function pressBlueBtn (){
 }
 
 function computerClicks(){
+    //User answers set to 0 at every new level
     user_input = [];
     var random_nb = Math.floor((Math.random() * 4));
     var selected_btn = buttons_colors[random_nb];
     solution.push(selected_btn);
-
+    //Animating the randomly selected button
     if (selected_btn == "green"){
         pressGreenBtn()    
     }else if(selected_btn == "blue"){
@@ -61,17 +64,20 @@ function computerClicks(){
     }else if(selected_btn == "yellow"){
         pressYellowBtn()
     }
+    //Updating the level
     title.textContent = "Level " + level;
     level++;
 }
 
 function checkUserInput(turn){
+    //Give turn back to computer to continue if user wins
     if(user_input[turn] == solution[turn]){
         if (user_input.length == solution.length){
             setTimeout(() => {
                 computerClicks();
             }, 500);
         }
+    //if not, reset the game
     }else{
         document.body.classList.add("game-over")
         setTimeout(() => {
@@ -81,6 +87,16 @@ function checkUserInput(turn){
     }
 }
 
+function gameOver(){
+    level = 1;
+    solution = [];
+    user_input = [];
+    game_flag = false;
+    title.textContent = ("Game Over. Press Any Key To Restart");
+    var audio_wrong = new Audio("/sounds/wrong.mp3");
+    audio_wrong.play();
+}
+//Execution
 document.addEventListener("keypress", function(event) {
     if (!game_flag){
         game_flag = true;
@@ -106,13 +122,3 @@ document.addEventListener("keypress", function(event) {
         })
     }
 })
-
-function gameOver(){
-    level = 1;
-    solution = [];
-    user_input = [];
-    game_flag = false;
-    title.textContent = ("Game Over. Press Any Key To Restart");
-    var audio_wrong = new Audio("/sounds/wrong.mp3");
-    audio_wrong.play();
-}
