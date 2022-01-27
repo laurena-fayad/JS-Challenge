@@ -10,10 +10,10 @@ var green_btn = document.getElementById("green")
 var red_btn = document.getElementById("red")
 var yellow_btn = document.getElementById("yellow")
 var blue_btn = document.getElementById("blue")
-var audio_green = new Audio("/sounds/green.mp3")
-var audio_red = new Audio("/sounds/red.mp3")
-var audio_yellow = new Audio("/sounds/yellow.mp3")
-var audio_blue = new Audio("/sounds/blue.mp3")
+var audio_green = new Audio("sounds/green.mp3")
+var audio_red = new Audio("sounds/red.mp3")
+var audio_yellow = new Audio("sounds/yellow.mp3")
+var audio_blue = new Audio("sounds/blue.mp3")
 
 //Animation functions
 function pressGreenBtn (){
